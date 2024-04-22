@@ -4,7 +4,7 @@
 | [<img align="center" alt="R_studio" height="60" width="60" src="https://github.com/AlbertoFAraujo/R_Petrobras/assets/105552990/02dff6df-07be-43dc-8b35-21d06eabf9e1">](https://posit.co/download/rstudio-desktop/) | [<img align="center" alt="ggplot" height="60" width="60" src="https://github.com/AlbertoFAraujo/R_Petrobras/assets/105552990/db55b001-0d4c-42eb-beb2-5131151c7114">](https://plotly.com/r/) | [<img align="center" alt="plotly" height="60" width="60" src="https://github.com/AlbertoFAraujo/R_Petrobras/assets/105552990/5f681062-c399-44af-a658-23e94b8b656f">](https://plotly.com/r/) | [<img align="center" alt="quantmod" height="60" width="60" src="https://github.com/AlbertoFAraujo/R_Petrobras/assets/105552990/2106b70f-0f04-475d-9c7c-cb908f911616">](https://www.rdocumentation.org/packages/quantmod/versions/0.4.26) | 
 |:---:|:---:|:---:|:---:|
 | R Studio | Ggplot2 | Plotly | Quantmod |
-- **RStudio:** Ambiente integrado para desenvolvimento em R, facilitando a escrita, execução e depuração de código;
+- **RStudio:** Ambiente integrado para desenvolvimento em R, oferecendo ferramentas para escrita, execução e depuração de código;
 - **ggplot2:** Pacote para criação de visualizações de dados;
 - **Plotly:** Biblioteca interativa para criação de gráficos e visualizações em diversas linguagens;
 - **Quantmod:** Pacote para análise financeira e modelagem quantitativa em R, com foco em mercados financeiros.
