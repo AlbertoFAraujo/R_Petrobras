@@ -17,6 +17,8 @@ Extrair dados das ações da Petrobrás de 2023 e realizar uma análise das aç�
 Base de dados: Petrobrás (PETR4.SA)
 <hr>
 
+### Script R: 
+
 ```r
 knitr::opts_chunk$set(message = FALSE)
 knitr::opts_chunk$set(warning = FALSE)
