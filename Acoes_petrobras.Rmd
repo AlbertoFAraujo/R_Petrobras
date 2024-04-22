@@ -1,0 +1,152 @@
+---
+message: false
+author: "Alberto Araujo"
+date: "2024-04-01"
+output:
+  html_document: 
+    theme: cosmo
+    fig_width: 12
+  message: FALSE
+title: "Ações da Petrobrás 2023"
+editor_options: 
+  chunk_output_type: inline
+---
+
+### Objetivo
+
+Extrair dados das ações da Petrobrás de 2023 e realizar uma análise das ações de fechamentos.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+
+# Definir um espelho de CRAN
+options(repos = "http://cran.rstudio.com/")
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+# Instalando os pacotes
+utils::install.packages("quantmod")
+install.packages('xts')
+install.packages('moments')
+```
+
+```{r message=FALSE, warning=FALSE}
+# Carregando os pacotes
+library('quantmod')
+library('xts')
+library('moments')
+```
+
+```{r}
+# Iniciar período de análise
+startDate = as.Date('2023-01-01')
+endDate = as.Date('2023-12-31')
+```
+
+```{r}
+# Obter os dados
+getSymbols('PETR4.SA',
+           src = 'yahoo',
+           from = startDate,
+           to = endDate,
+           auto.assign = T
+           )
+```
+
+```{r}
+# Verificando os dados retornados
+class(PETR4.SA)
+is.xts(PETR4.SA)
+```
+
+```{r}
+# Analisando os primeiros registros
+head(PETR4.SA)
+tail(PETR4.SA)
+```
+
+```{r}
+# Dados de fechamento
+PETR4.SA.Close <- PETR4.SA[,'PETR4.SA.Close']
+is.xts(PETR4.SA.Close)
+```
+
+```{r}
+# Extrai e transforma colunas de séries temporais
+head(Cl(PETR4.SA.Close))
+```
+
+```{r}
+# Plotando o gráfico da Petrobrás com o plot antivo do quantmod
+candleChart(PETR4.SA)
+
+# Boolinger bands
+addBBands(n = 20, sd = 2) # Ajuste às condições de mercado, com dois desvios
+
+# Indicador ADX, média 11 do tipo exponencial
+addADX(n = 11, maType = 'EMA')
+```
+
+```{r}
+# Logaritmo para alterar a escala e analisar detalhadamente os dados
+PETR4.SA.log <- diff(log(PETR4.SA.Close), lag = 1)
+PETR4.SA.log
+```
+
+```{r}
+# Removendo valores NA
+PETR4.SA.log <- PETR4.SA.log[-1]
+PETR4.SA.log
+```
+
+```{r}
+# Plotando os dados de fechamento
+plot(PETR4.SA.log,
+     main = 'Fechamento ações Petrobrás',
+     col = "red",
+     xlab = 'Data',
+     ylab = 'Preço',
+     major.ticks = 'months',
+     minor.ticks = FALSE
+)
+```
+
+```{r}
+# Medidas estatística
+stat <- c('Média','Desvio Padrão','Assimetria', 'Curtose')
+PETR4.SA.stat <- c(mean(PETR4.SA.log),
+                   sd(PETR4.SA.log),
+                   skewness(PETR4.SA.log),
+                   kurtosis(PETR4.SA.log)
+                   )
+names(PETR4.SA.stat) <- stat
+PETR4.SA.stat
+```
+
+```{r}
+# Plotando o gráfico interativo com plotly
+library(plotly)
+
+df <- data.frame(Date=index(PETR4.SA),coredata(PETR4.SA))
+
+fig <- df %>% 
+  plot_ly(x = ~Date, 
+          type="candlestick",
+          open = ~PETR4.SA.Open, 
+          close = ~PETR4.SA.Close,
+          high = ~PETR4.SA.High, 
+          low = ~PETR4.SA.Low) %>% 
+  layout(title = "Ações Petrobrás 2023",
+         width = 900)
+fig
+```
+
+```{r}
+# Salvar os dados
+saveRDS(PETR4.SA, 
+        file = 'PETR4.SA.rds')
+fileArq <- readRDS('PETR4.SA.rds')
+dir()
+head(fileArq)
+```
